@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy New Year</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1, #fbc2eb);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 5rem;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(166, 38, 221, 0.973), 0 0 20px rgba(255, 42, 42, 0.685);
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .firework {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: transparent;
+            border-radius: 50%;
+            animation: explode 1.5s ease-out infinite;
+        }
+        @keyframes explode {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+        .confetti {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: red;
+            border-radius: 50%;
+            animation: fall 3s linear infinite;
+        }
+        .blowing-confetti {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: yellow;
+            border-radius: 50%;
+            animation: blow 4s linear infinite;
+        }
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        @keyframes blow {
+            0% {
+                transform: translate(-50px, 0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(50px, 100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Happy New Year po!</h1>
+    <audio id="fireworksAudio" autoplay loop>
+        <source src="fireworks.mp3" type="audio/mpeg">
+    </audio>
+    <script>
+            const audio = document.getElementById('fireworksAudio');
+            audio.volume = 1.0;
+        
+            audio.play().catch(error => {
+                console.log('Autoplay blocked. User interaction required:', error);
+                const message = document.createElement('div');
+                message.textContent = 'note: click anywhere plzz';
+                message.style.position = 'fixed';
+                message.style.top = '60%';
+                message.style.left = '50%';
+                message.style.transform = 'translate(-50%, -50%)';
+                message.style.background = 'rgba(0, 0, 0, 0.7)';
+                message.style.color = 'white';
+                message.style.padding = '10px 20px';
+                message.style.borderRadius = '8px';
+                message.style.zIndex = '1000';
+                document.body.appendChild(message);
+                document.body.addEventListener('click', () => {
+                    audio.play().then(() => message.remove());
+                }, { once: true });
+            });
+        function createFirework() {
+            const firework = document.createElement('div');
+            firework.classList.add('firework');
+            firework.style.left = Math.random() * window.innerWidth + 'px';
+            firework.style.top = Math.random() * window.innerHeight + 'px';
+            firework.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+            document.body.appendChild(firework);
+            setTimeout(() => firework.remove(), 1500);
+        }
+        setInterval(createFirework, -200);
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            confetti.style.left = Math.random() * window.innerWidth + 'px';
+            confetti.style.top = '-10px';
+            confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+            document.body.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 3000);
+        }
+        setInterval(createConfetti, -800);
+        function createBlowingConfetti() {
+            const blowingConfetti = document.createElement('div');
+            blowingConfetti.classList.add('blowing-confetti');
+            blowingConfetti.style.left = Math.random() * window.innerWidth + 'px';
+            blowingConfetti.style.top = '-10px';
+            blowingConfetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            document.body.appendChild(blowingConfetti);
+
+            setTimeout(() => blowingConfetti.remove(), 4000);
+        }
+        setInterval(createBlowingConfetti, 150);
+    </script>
+</body>
+</html>
